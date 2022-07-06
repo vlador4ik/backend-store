@@ -1,14 +1,14 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import db from '../config/db.js';
+import dotenv from 'dotenv'
+dotenv.config()
 const app = express();
-const port = 3000;
 
 //connect to DB
-mongoose.connect(db.url)
+mongoose.connect(process.env.DB_URL)
 .then(() => console.log("MongoDB database connection established successfully"))
 .catch((err) => console.log('Error when try connect to DB', err))
-const Products = mongoose.model('products', mongoose.Schema({
+const Products = mongoose.model('items', mongoose.Schema({
   name: String,
   image: String,
   id: String,
@@ -23,13 +23,13 @@ app.get('/api/products', async (req, res) => {
   } else {
     res.status(401);
     res.send({
-      status: 'Error',
+      status: 401,
       description: 'Error when try fetch products'
     })
   }
     
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}`)
 })
