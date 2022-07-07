@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Products from './models/Items.js'
 import dotenv from 'dotenv'
 dotenv.config()
 const app = express();
@@ -8,12 +9,7 @@ const app = express();
 mongoose.connect(process.env.DB_URL)
 .then(() => console.log("MongoDB database connection established successfully"))
 .catch((err) => console.log('Error when try connect to DB', err))
-const Products = mongoose.model('items', mongoose.Schema({
-  name: String,
-  image: String,
-  id: String,
-  description: String
-}));
+
 app.get('/api/products', async (req, res) => {
   
   const allProducts = await Products.find({});
